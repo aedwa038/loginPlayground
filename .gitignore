@@ -1,6 +1,7 @@
 # Compiled class file
 *.class
-
+#for emacs users
+*~
 # Log file
 *.log
 
