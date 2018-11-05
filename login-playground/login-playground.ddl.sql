@@ -18,13 +18,14 @@ ALTER TABLE users OWNER TO login;
 
 INSERT INTO users (email, username, user_pass) VALUES ("test@test.com" "username", "password");
 
+INSERT INTO users (email, username, password) VALUES ('test@test.com', 'username', 'password');
+
+SELECT email, username from users where users.id = 1
 
 DROP DATABASE postgres;
 
 
-	CREATE TABLE users (
-  	       id SERIAL PRIMARY KEY,
-  	       	  email TEXT NOT NULL UNIQUE,
-  		  	username text not null unique,
- 				 password TEXT NOT NULL
-				 );
+UPDATE users
+SET last_login = DEFAULT
+WHERE
+ users.id = 1;
