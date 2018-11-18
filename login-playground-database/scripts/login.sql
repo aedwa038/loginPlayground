@@ -8,7 +8,7 @@ begin;
 		last_login TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 	);
 
-	INSERT INTO users (email, username, password, registered_date) VALUES ('test@test.com', 'username', 'password', CURRENT_TIMESTAMP);
+	INSERT INTO users (email, username, password, registered_date) VALUES ('test@test.com', 'username', '$2a$12$6SnB66J6C9L2O9dk3YeFde9z/ReAgdutkzk/Up.d0oUcS6ncPBbPy', CURRENT_TIMESTAMP);
 
 commit;
 
