@@ -1,9 +1,6 @@
 package org.playground.login.playground.repository;
 
-import org.jooq.DSLContext;
-import org.jooq.Record;
-import org.jooq.Record1;
-import org.jooq.Result;
+import org.jooq.*;
 import org.jooq.impl.DSL;
 import org.jooq.meta.derby.sys.Sys;
 import org.playground.login.playground.ApplicatonError;
@@ -36,6 +33,7 @@ public class DataService <R> {
     public static final Logger LOGGER = LoggerFactory.getLogger(DataService.class);
 
     private List<R> getById (Integer id, Class<R> rClass, Function<Record, R> func) throws ApplicatonError {
+
         Result<Record> records = dslContext.select(DSL.asterisk())
                 .from(table(getTableName(rClass)))
                 .where(field("id")

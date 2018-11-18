@@ -12,13 +12,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.concurrent.CompletableFuture;
+
 @Service
 public class UserLoginService {
 
     @Autowired
     UserRepository userRepository;
 
-    @Transactional
+    @Transactional(transactionManager = "txManager")
     public UserLoginResponse loginUser(UserLoginRequest request) throws Exception{
         String password = userRepository.getUserPassword(request.getUsername());
 
@@ -28,12 +30,16 @@ public class UserLoginService {
         RegisteredUser user = userRepository.getRegisteredUser(request.getUsername());
         userRepository.updateLastlogin(request.getUsername());
 
-        return new UserLoginResponse("");
+        return new UserLoginResponse(user);
     }
 
-    @Transactional
+    @Transactional(transactionManager = "txManager")
     public UserRegistrationResponse register(UserRegisterRequest request) throws Exception {
-        if(!userRepository.checkByEmail(request.getEmail()) || !userRepository.checkByUsername(request.getUsername())) {
+        CompletableFuture<Boolean> emails = userRepository.checkByEmail(request.getEmail());
+        CompletableFuture<Boolean> usernames = userRepository.checkByUsername(request.getUsername());
+        CompletableFuture.allOf(emails, usernames).join();
+
+        if(!emails.get() || !usernames.get()) {
             throw new ApplicatonError("email and username check", "value already exisits");
         }
 
@@ -41,13 +47,11 @@ public class UserLoginService {
         registeredUser.setUsername(request.getUsername());
         registeredUser.setEmail(request.getPassword());
         registeredUser.setPassword(CryptoUtil.hash(request.getPassword()));
-
         if(!userRepository.insertUser(registeredUser)) {
             throw new ApplicatonError("Error insert", "Error inserting user");
         }
+
         RegisteredUser user = userRepository.getRegisteredUser(request.getUsername());
-
-
         return new UserRegistrationResponse(user);
     }
 }

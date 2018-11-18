@@ -77,26 +77,6 @@ public class RegisteredUser {
         this.email = email;
     }
 
-    public static RegisteredUser create(Map<String, Object> row) {
-        RegisteredUser registeredUser = new RegisteredUser();
-        registeredUser.setId((Integer) row.get("id"));
-        registeredUser.setLastLoginDate(((Timestamp) row.get("last_login")).toLocalDateTime());
-        registeredUser.setRegisteredDate(((Timestamp) row.get("registered_date")).toLocalDateTime());
-        registeredUser.setUsername((String) row.get("username"));
-        registeredUser.setEmail((String) row.get("email"));
-        return registeredUser;
-    }
-
-    public static RegisteredUser create(Record row) {
-        RegisteredUser registeredUser = new RegisteredUser();
-        registeredUser.setId((Integer) row.get("id"));
-        registeredUser.setLastLoginDate(((Timestamp) row.get("last_login")).toLocalDateTime());
-        registeredUser.setRegisteredDate(((Timestamp) row.get("registered_date")).toLocalDateTime());
-        registeredUser.setUsername((String) row.get("username"));
-        registeredUser.setEmail((String) row.get("email"));
-        return registeredUser;
-    }
-
 
 
 }
