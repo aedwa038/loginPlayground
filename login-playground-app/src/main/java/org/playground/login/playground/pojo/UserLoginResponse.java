@@ -1,15 +1,14 @@
 package org.playground.login.playground.pojo;
 
+import org.playground.login.playground.repository.pojo.RegisteredUser;
+
 public class UserLoginResponse {
     private String message;
-    private UserResponse user;
+    private RegisteredUser user;
 
 
-    public UserResponse getUser() {
-        return user;
-    }
-
-    public void setUser(UserResponse user) {
+    public UserLoginResponse(RegisteredUser user) {
+        this.message = "Welcome back " + user.getUsername();
         this.user = user;
     }
 

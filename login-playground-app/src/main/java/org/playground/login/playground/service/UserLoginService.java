@@ -25,7 +25,9 @@ public class UserLoginService {
         if(!CryptoUtil.checkPassword(request.getPassword(), password)) {
            throw new ApplicatonError("", "UserLogin Error");
         }
+        RegisteredUser user = userRepository.getRegisteredUser(request.getUsername());
         userRepository.updateLastlogin(request.getUsername());
+
         return new UserLoginResponse("");
     }
 
@@ -43,7 +45,9 @@ public class UserLoginService {
         if(!userRepository.insertUser(registeredUser)) {
             throw new ApplicatonError("Error insert", "Error inserting user");
         }
+        RegisteredUser user = userRepository.getRegisteredUser(request.getUsername());
 
-        return new UserRegistrationResponse("");
+
+        return new UserRegistrationResponse(user);
     }
 }

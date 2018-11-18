@@ -49,13 +49,10 @@ public class UserRepository {
 
 
     public void updateLastlogin(String username) {
-        String sql =  dslContext.update(table(USERS))
+        dslContext.update(table(USERS))
                 .set(field("last_login"), "DEFAULT")
                 .where(field("username")
-                        .eq(username)).getSQL();
-
-        dataService.queryForList(sql, RegisteredUser::create);
-
+                        .eq(username)).execute();
     }
 
     public RegisteredUser getRegisteredUser(String username) throws ApplicatonError {

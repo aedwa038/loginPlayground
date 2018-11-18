@@ -59,8 +59,6 @@ public class DataService <R> {
     }
 
     public List<R> queryForList(String sql, Function<Record,R> func) {
-        LOGGER.info("query here here here");
-        LOGGER.info(sql);
         return map(dslContext.fetch(sql), func);
     }
 
@@ -96,16 +94,15 @@ public class DataService <R> {
                 }
             }
         }
-        String sql = dslContext.insertInto(table(getTableName(rClass)))
-                .columns(fields)
-                .values(objects).getSQL();
-
         boolean sucess = true;
         try {
-            dslContext.execute(sql);
+            dslContext.insertInto(table(getTableName(rClass)))
+                    .columns(fields)
+                    .values(objects).execute();
         } catch (Exception ex) {
             sucess =  false;
         }
+
         return sucess;
     }
 
@@ -120,13 +117,13 @@ public class DataService <R> {
                     }
                     catch (IllegalAccessException e)
                     {
-                        System.out.println(e);
-                       // Logger.fatal("Could not determine method: " + method.getName());
+                        LOGGER.warn("Could not determine method: " + method.getName());
+                        LOGGER.error("Error: ", e);
                     }
                     catch (InvocationTargetException e)
-                    {
-                        System.out.println(e);
-                       // Logger.fatal("Could not determine method: " + method.getName());
+                    { ;
+                        LOGGER.warn("Could not determine method: " + method.getName());
+                        LOGGER.error("Error: ", e);
                     }
                 }
             }

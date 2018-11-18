@@ -8,14 +8,19 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
 
+import javax.sql.DataSource;
+
 @Configuration
 public class ConfigBean {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
+    @Autowired
+    private DataSource dataSource;
+
     @Bean
     public DSLContext createDSLContext() {
-        return DSL.using(jdbcTemplate.getDataSource(), SQLDialect.POSTGRES);
+        return DSL.using(dataSource, SQLDialect.POSTGRES);
     }
 }
