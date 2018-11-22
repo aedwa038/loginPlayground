@@ -2,24 +2,19 @@ package org.playground.login.playground.repository;
 
 import org.jooq.*;
 import org.jooq.impl.DSL;
-import org.jooq.meta.derby.sys.Sys;
-import org.playground.login.playground.ApplicatonError;
-import org.playground.login.playground.LoginRestService;
+import org.playground.login.playground.error.ApplicatonError;
 import org.playground.login.playground.repository.anonotations.Column;
 import org.playground.login.playground.repository.anonotations.Table;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.function.Function;
 
 import static org.jooq.impl.DSL.*;
@@ -75,57 +70,72 @@ public class DataService <R> {
         return records;
     }
 
-
-
     public boolean insert (R r, Class<R> rClass) throws Exception {
-        System.out.println("insert");
+        LOGGER.info("insert");
         List<org.jooq.Field<Object>> fields = new ArrayList<>();
         List<Object> objects = new ArrayList<>();
         for (Field field : rClass.getDeclaredFields()) {
             if(field.isAnnotationPresent(Column.class)) {
                 Column column = field.getAnnotation(Column.class);
-                fields.add(field(column.name()));
                 Object obj = invokeGetter(field, r);
                 if(obj != null) {
                     System.out.println(obj.toString());
                     objects.add(obj);
+                    fields.add(field(column.name()));
                 }
             }
         }
         boolean sucess = true;
         try {
+            String sql = dslContext.insertInto(table(getTableName(rClass)))
+                    .columns(fields)
+                    .values(objects).getSQL();
+            LOGGER.info(sql);
             dslContext.insertInto(table(getTableName(rClass)))
                     .columns(fields)
                     .values(objects).execute();
-        } catch (Exception ex) {
+        } catch (Throwable ex) {
             sucess =  false;
+            LOGGER.warn("Error inserting record");
+            LOGGER.error("Error: ", ex);
         }
 
         return sucess;
     }
 
     public static Object invokeGetter(Field field, Object r) {
-        for (Method method : r.getClass().getMethods()) {
-            if (method.getName().startsWith("get")&& (method.getName().length() == (field.getName().length() + 3))) {
-                if (method.getName().toLowerCase().endsWith(field.getName().toLowerCase()))
-                {
-                    try
-                    {
-                        return method.invoke(r);
-                    }
-                    catch (IllegalAccessException e)
-                    {
-                        LOGGER.warn("Could not determine method: " + method.getName());
-                        LOGGER.error("Error: ", e);
-                    }
-                    catch (InvocationTargetException e)
-                    { ;
-                        LOGGER.warn("Could not determine method: " + method.getName());
-                        LOGGER.error("Error: ", e);
-                    }
-                }
-            }
+        Method method = findGetter(field, r);
+        return invoke(method, r);
+    }
+
+    private static Method findGetter(Field field, Object r) {
+       for (Method method : r.getClass().getMethods()) {
+           if (method.getName().startsWith("get") && (method.getName().length() == (field.getName().length() + 3))) {
+               if (method.getName().toLowerCase().endsWith(field.getName().toLowerCase())) {
+                   return method;
+               }
+           }
+       }
+       LOGGER.warn("Unable to find method for class" + r.getClass().getSimpleName());
+       return null;
+    }
+
+    private static Object invoke(Method method, Object r) {
+        try
+        {
+            return method.invoke(r);
         }
+        catch (IllegalAccessException e)
+        {
+            LOGGER.warn("Could not determine method: " + method.getName());
+            LOGGER.error("Error: ", e);
+        }
+        catch (InvocationTargetException e)
+        {
+            LOGGER.warn("Could not determine method: " + method.getName());
+            LOGGER.error("Error: ", e);
+        }
+
         return null;
     }
 

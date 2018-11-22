@@ -1,6 +1,6 @@
 package org.playground.login.playground.service;
 
-import org.playground.login.playground.ApplicatonError;
+import org.playground.login.playground.error.ApplicatonError;
 import org.playground.login.playground.repository.pojo.RegisteredUser;
 import org.playground.login.playground.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;

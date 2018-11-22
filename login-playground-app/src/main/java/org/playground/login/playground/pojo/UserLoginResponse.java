@@ -12,6 +12,14 @@ public class UserLoginResponse {
         this.user = user;
     }
 
+    public RegisteredUser getUser() {
+        return user;
+    }
+
+    public void setUser(RegisteredUser user) {
+        this.user = user;
+    }
+
     public UserLoginResponse(String message) {
         this.message = message;
     }

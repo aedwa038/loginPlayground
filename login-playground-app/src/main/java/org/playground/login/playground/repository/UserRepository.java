@@ -6,24 +6,19 @@ import org.jooq.DSLContext;
 import org.jooq.Record;
 import org.jooq.Record1;
 import org.jooq.Result;
-import org.jooq.meta.derby.sys.Sys;
-import org.playground.login.playground.ApplicatonError;
+import org.playground.login.playground.error.ApplicatonError;
 import org.playground.login.playground.LoginRestService;
 import org.playground.login.playground.repository.pojo.RegisteredUser;
-import org.playground.login.playground.utils.Mapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Repository;
 import static org.jooq.impl.DSL.*;
 
 import java.sql.Timestamp;
-import java.time.LocalDate;
-import java.util.ArrayList;
+import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
 
@@ -53,7 +48,7 @@ public class UserRepository {
 
     public void updateLastlogin(String username) {
         dslContext.update(table(USERS))
-                .set(field("last_login"), "DEFAULT")
+                .set(field("last_login"), LocalDateTime.now())
                 .where(field("username")
                         .eq(username)).execute();
     }
@@ -80,7 +75,7 @@ public class UserRepository {
         try {
            return dataService.insert(user, RegisteredUser.class);
         } catch (Exception ex) {
-
+            LOGGER.error("Failing to insert record: ", ex);
         }
         return false;
     }

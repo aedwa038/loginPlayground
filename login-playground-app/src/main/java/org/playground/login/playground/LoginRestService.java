@@ -1,12 +1,18 @@
 package org.playground.login.playground;
 
+import org.playground.login.playground.error.ApplicatonError;
 import org.playground.login.playground.pojo.*;
 import org.playground.login.playground.service.TestService;
 import org.playground.login.playground.service.UserLoginService;
+import org.playground.login.playground.service.UserSession;
+import org.playground.login.playground.service.UserSessionService;
+import org.playground.login.playground.utils.CryptoUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletResponse;
 
 @RestController
 @RequestMapping("/rest/")
@@ -19,6 +25,9 @@ public class LoginRestService {
     @Autowired
     TestService testService;
 
+    @Autowired
+    UserSessionService userSessionService;
+
     public static final Logger LOGGER = LoggerFactory.getLogger(LoginRestService.class);
 
 
@@ -27,7 +36,7 @@ public class LoginRestService {
     public UserRegistrationResponse register(@RequestBody UserRegisterRequest userRegisterRequest) throws Exception {
         LOGGER.info("register");
         if(userRegisterRequest == null || userRegisterRequest.getEmail() == null || userRegisterRequest.getPassword() == null || userRegisterRequest.getUsername() == null){
-            throw new ApplicatonError("Registration Error", "App Error");
+            throw new ApplicatonError(ApplicatonError.ErrorCode.ILLEGAL_ARGUMENT,"Registration Error", "App Error");
         }
         //validate request
         return userLoginService.register(userRegisterRequest);
@@ -35,12 +44,17 @@ public class LoginRestService {
 
     @PostMapping("login/")
     @ResponseBody
-    public UserLoginResponse login(@RequestBody UserLoginRequest userLoginRequest) throws Exception {
+    public UserLoginResponse login(@RequestBody UserLoginRequest userLoginRequest,HttpServletResponse response) throws Exception {
         if(userLoginRequest == null || userLoginRequest.getUsername() == null || userLoginRequest.getPassword() == null || userLoginRequest.getUsername() == null){
-            throw new ApplicatonError("Login Error", "App Error");
+            throw new ApplicatonError(ApplicatonError.ErrorCode.ILLEGAL_ARGUMENT,"Login Error", "App Error");
         }
         //validate response
-        return userLoginService.loginUser(userLoginRequest);
+
+        UserLoginResponse userLoginResponse = userLoginService.loginUser(userLoginRequest);
+        UserSession userSession = UserSession.create(userLoginResponse.getUser());
+        String sessionId = userSessionService.putSession(userSession);
+        response.setHeader("SESSIONID", CryptoUtil.encode(sessionId));
+        return userLoginResponse;
     }
 
     @RequestMapping("test/")

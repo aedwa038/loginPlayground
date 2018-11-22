@@ -7,6 +7,7 @@ import org.playground.login.playground.repository.anonotations.Table;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.Map;
+import java.util.Objects;
 
 
 @Table(name = "users")
@@ -78,5 +79,21 @@ public class RegisteredUser {
     }
 
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        RegisteredUser user = (RegisteredUser) o;
+        return Objects.equals(id, user.id) &&
+                Objects.equals(username, user.username) &&
+                Objects.equals(password, user.password) &&
+                Objects.equals(email, user.email) &&
+                Objects.equals(registeredDate, user.registeredDate);
+    }
 
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(id, username, password, email, registeredDate);
+    }
 }

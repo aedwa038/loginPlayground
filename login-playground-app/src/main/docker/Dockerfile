@@ -1,4 +1,4 @@
-FROM openjdk
+FROM openjdk:8-jdk-alpine
 
 VOLUME /tmp
 ADD maven/login-playground-@dockerfile.release.version@.jar login-playground-@dockerfile.release.version@.jar
