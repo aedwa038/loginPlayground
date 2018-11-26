@@ -27,11 +27,21 @@ public class DataService <R> {
 
     public static final Logger LOGGER = LoggerFactory.getLogger(DataService.class);
 
-    private List<R> getById (Integer id, Class<R> rClass, Function<Record, R> func) throws ApplicatonError {
+    public List<R> getById (Integer id, Class<R> rClass, Function<Record, R> func) throws ApplicatonError {
 
         Result<Record> records = dslContext.select(DSL.asterisk())
                 .from(table(getTableName(rClass)))
                 .where(field("id")
+                        .eq(id)).fetch();
+
+        return map(records, func);
+    }
+
+    public List<R> getByField (String field, Integer id, Class<R> rClass, Function<Record, R> func) throws ApplicatonError {
+
+        Result<Record> records = dslContext.select(DSL.asterisk())
+                .from(table(getTableName(rClass)))
+                .where(field(field)
                         .eq(id)).fetch();
 
         return map(records, func);
@@ -136,6 +146,38 @@ public class DataService <R> {
             LOGGER.error("Error: ", e);
         }
 
+        return null;
+    }
+
+    public int update(R r, Class<R> rClass) throws ApplicatonError {
+        UpdateSetFirstStep updateSetFirstStep =  dslContext.update(table(getTableName(rClass)));
+        UpdateSetMoreStep updateSet = null;
+        for (Field field : rClass.getDeclaredFields()) {
+            if(field.isAnnotationPresent(Column.class)) {
+                Column column = field.getAnnotation(Column.class);
+                Object obj = invokeGetter(field, r);
+                if(obj != null) {
+                    System.out.println(obj.toString());
+                    updateSet = updateSetFirstStep.set(field(column.name()), obj);
+                }
+            }
+        }
+        if(updateSet == null) {
+            LOGGER.warn("updateSet is null");
+            throw  new ApplicatonError(ApplicatonError.ErrorCode.BACKEND_ERROR, "Error","Backend Error");
+        }
+        Field primaryKey = findPrimaryKey(r, rClass);
+        updateSet.where(field("id").eq(invokeGetter(primaryKey, r)));
+        return dslContext.execute(updateSet);
+
+    }
+
+    public Field findPrimaryKey (R r, Class<R> rClass) {
+        for (Field field : rClass.getDeclaredFields()) {
+            if(field.getName().equals("id")) {
+                return field;
+            }
+        }
         return null;
     }
 

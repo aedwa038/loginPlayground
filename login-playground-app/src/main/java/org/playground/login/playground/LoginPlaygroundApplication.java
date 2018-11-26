@@ -33,11 +33,4 @@ public class LoginPlaygroundApplication extends SpringBootServletInitializer {
 		return application.sources(LoginPlaygroundApplication.class);
 	}
 
-@Bean
-@Scope(value = ConfigurableBeanFactory.SCOPE_SINGLETON)
-public UserSessionService configService() {
-		return UserSessionService.getInstance();
-}
-
-
 }

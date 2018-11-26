@@ -47,4 +47,12 @@ public class ApplicatonError extends Exception {
         LOGIN_ERROR,
         UNKNOWN
     }
+
+    @Override
+    public String toString() {
+        return "ApplicatonError{" +
+                "errorString='" + errorString + '\'' +
+                ", errorCode=" + errorCode +
+                '}';
+    }
 }

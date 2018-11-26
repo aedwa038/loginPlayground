@@ -63,6 +63,15 @@ public class UserRepository {
         return users.get(0);
     }
 
+    public RegisteredUser getById(int id) throws ApplicatonError {
+        List<RegisteredUser> users  = dataService.getById(  id, RegisteredUser.class, UserRepository::create);
+        if(users.size() < 1) {
+            throw new ApplicatonError("","");
+        }
+
+        return users.get(0);
+    }
+
     public String getUserPassword(String userName) throws Exception {
         Result<Record1<Object>> rows = dataService.getField("password", "username", userName, RegisteredUser.class);
         final StringBuilder password = new StringBuilder("");
