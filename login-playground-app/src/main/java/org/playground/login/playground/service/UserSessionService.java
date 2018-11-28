@@ -3,6 +3,7 @@ package org.playground.login.playground.service;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 
 
@@ -27,7 +28,7 @@ public class UserSessionService {
         return sessionID;
     }
 
-    public UserSession getSession(String sessionID) {
-        return userSessionMap.get(sessionID);
+    public Optional<UserSession> getSession(String sessionID) {
+        return Optional.ofNullable(userSessionMap.get(sessionID));
     }
 }

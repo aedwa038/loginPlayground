@@ -3,9 +3,13 @@ package org.playground.login.playground;
 import org.jooq.DSLContext;
 import org.jooq.SQLDialect;
 import org.jooq.impl.DSL;
+import org.playground.login.playground.filter.LoginFilter;
+import org.playground.login.playground.filter.RestFilter;
 import org.playground.login.playground.service.UserSessionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -34,11 +38,37 @@ public class ConfigBean {
         return DSL.using(dataSource, SQLDialect.POSTGRES);
     }
 
+    @Autowired
+    private AutowireCapableBeanFactory beanFactory;
+
+
     @Bean(name = "txManager")
     public PlatformTransactionManager createTranactionManger() {
         DataSourceTransactionManager transactionManager = new DataSourceTransactionManager();
         transactionManager.setDataSource(jdbcTemplate.getDataSource());
         return transactionManager;
+    }
+
+    @Bean
+    public FilterRegistrationBean loginFilterBean() {
+        FilterRegistrationBean registration = new FilterRegistrationBean();
+        LoginFilter loginFilter = new LoginFilter();
+        beanFactory.autowireBean(loginFilter);
+        registration.setFilter(loginFilter);
+        registration.addUrlPatterns("/playground/*");
+        registration.setOrder(0);
+        return registration;
+    }
+
+    @Bean
+    public FilterRegistrationBean restFilterBean() {
+        FilterRegistrationBean registration = new FilterRegistrationBean();
+        RestFilter filter = new RestFilter();
+        beanFactory.autowireBean(filter);
+        registration.setFilter(filter);
+        registration.addUrlPatterns("/rest/*");
+        registration.setOrder(0);
+        return registration;
     }
 
 

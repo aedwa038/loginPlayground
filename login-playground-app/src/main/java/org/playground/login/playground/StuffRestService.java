@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/stuff/")
+@RequestMapping("/rest/")
 public class StuffRestService {
 
     @Autowired
@@ -27,14 +27,14 @@ public class StuffRestService {
     @Autowired
     UserSessionService userSessionService;
 
-    @RequestMapping("{userId}/")
+    @RequestMapping("stuff/{userId}/")
     @ResponseBody
     public StuffResponse getByStuffUser (@PathVariable("userId") int userId) throws ApplicatonError {
       List<Stuff> stuffs =  stuffService.getByUser(userId);
         return new StuffResponse(stuffs);
     }
 
-    @PutMapping("{userId}/")
+    @PutMapping("stuff/{userId}/")
     @ResponseBody
     public ResponseEntity<Object> addStuff(@PathVariable("userId") int userId, @RequestBody Stuff stuff) throws ApplicatonError{
         RegisteredUser registeredUser = userRepository.getById(userId);
@@ -43,7 +43,7 @@ public class StuffRestService {
     }
 
 
-    @PostMapping("{userId}/")
+    @PostMapping("stuff/{userId}/")
     @ResponseBody
     public ResponseEntity<Object> upddateStuff(@PathVariable("userId") int userId, @RequestBody Stuff stuff) throws ApplicatonError{
         stuffService.update(stuff.getId(), stuff.getData());

@@ -6,15 +6,17 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.*;
+import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Optional;
 
-@Component
-@Order(0)
-public class LoginPlaygroundFilter implements Filter {
 
-    public static final Logger LOGGER = LoggerFactory.getLogger(LoginPlaygroundFilter.class);
+
+public class LoginFilter implements Filter {
+
+    public static final Logger LOGGER = LoggerFactory.getLogger(LoginFilter.class);
 
 
     @Override
@@ -22,13 +24,11 @@ public class LoginPlaygroundFilter implements Filter {
         LOGGER.info("doFilter");
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse res = (HttpServletResponse) response;
-        LOGGER.info(
-                "Logging Request  {} : {}", req.getMethod(),
-                req.getRequestURI());
+        LOGGER.info("Logging Request  {} : {}", req.getMethod(), req.getRequestURI());
+        LOGGER.info("Logging connecton request   {}:{}", req.getRemoteAddr(), req.getRemotePort());
         chain.doFilter(request, response);
-
-        LOGGER.info(
-                "Logging Response :{}",
-                res.getContentType());
+        LOGGER.info("Logging Response :{}", res.getContentType());
     }
+
+
 }
