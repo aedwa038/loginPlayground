@@ -30,8 +30,17 @@ pipeline {
                  script {
                     def dockerImage = docker.build(registry +":${env.BUILD_ID}", '-f ./login-playground-database/Dockerfile .')
                    // pipelineContext.dockerImage = dockerImage
-                    dockerImage.push()
+                   // dockerImage.push()
                 }
+            }
+        }
+
+        stage('Publish') {
+            steps {
+                withDockerRegistry([ credentialsId: "dockerhub", url: "" ]) {
+          sh 'docker push aedwa038/login-playground:latest'
+          sh 'docker push ' +registry +":${env.BUILD_ID}""
+        }
             }
         }
 
