@@ -26,6 +26,7 @@ pipeline {
         stage('Build Database') {
             steps {
                  echo 'Build docker image'
+                 sh 'cd login-playground-database'
                  script {
                     def dockerImage = docker.build(registry +":${env.BUILD_ID}", '-f ./login-playground-database/Dockerfile .')
                    // pipelineContext.dockerImage = dockerImage
