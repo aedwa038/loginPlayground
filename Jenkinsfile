@@ -1,16 +1,10 @@
 pipeline {
-
+    agent none
     environment {
         registry = "aedwa038/login_db"
         registryCredential = 'dockerhub'
     }
-    agent {
-     //dockerfile true
-     docker {
-         image 'aedwa038/builder:latest'
-         args '-v /root/.m2:/root/.m2'
-      }
-    }
+    
     stages {
          stage ('Initialize') {
             steps {
@@ -21,6 +15,13 @@ pipeline {
             }
         }
         stage('Build App') {
+            agent {
+            //dockerfile true
+            docker {
+                image 'aedwa038/builder:latest'
+                args '-v /root/.m2:/root/.m2'
+            }
+        }
             steps {
                 echo 'Building..'
                 sh 'cd login-playground-app/ && mvn -Dmaven.test.failure.ignore=true install && cd ../'
