@@ -26,7 +26,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
                 LOGGER.error("Error: ",ex);
         }
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.status(500).build();
     }
 
 
@@ -35,7 +35,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
             Throwable ex) {
         LOGGER.warn("Error occured: " + ex.getMessage());
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.status(500).build();
     }
 
 

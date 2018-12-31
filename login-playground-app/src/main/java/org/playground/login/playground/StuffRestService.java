@@ -61,8 +61,6 @@ public class StuffRestService {
         if(stuff == null) {
             throw new ApplicatonError(ApplicatonError.ErrorCode.AUTHENTICATION_ERROR, "","");
         }
-        res.setContentType(stuff.getContentType());
-        res.setHeader("Content-Type", stuff.getContentType());
         return ResponseEntity.ok().contentType(MediaType.parseMediaType(stuff.getContentType())).body(stuff.getData());
     }
 
