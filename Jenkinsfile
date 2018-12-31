@@ -28,8 +28,8 @@ pipeline {
                  echo 'Build docker image'
                  script {
                     def dockerImage = docker.build(registry +":${env.BUILD_ID}", '-f ./login-playground-database/Dockerfile .')
-                    pipelineContext.dockerImage = dockerImage
-                    dockerImage.push()
+                   // pipelineContext.dockerImage = dockerImage
+                    //dockerImage.push()
                 }
             }
         }
