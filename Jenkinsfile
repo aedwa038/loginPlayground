@@ -16,10 +16,11 @@ pipeline {
         }
         stage('Build App') {
             agent {
-            //dockerfile true
-            docker {
-                image 'aedwa038/builder:latest'
-                args '-v /root/.m2:/root/.m2'
+                //dockerfile true
+                docker {
+                    image 'aedwa038/builder:latest'
+                    args '-v /root/.m2:/root/.m2'
+                }
             }
         }
             steps {
