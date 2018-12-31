@@ -35,11 +35,11 @@ pipeline {
                     customImage.push()
                 }
                 script {
-                    docker.build(registry + ":$BUILD_NUMBER"
+                    docker.build(registry + ":$BUILD_NUMBER")
                 }
-                
             }
         }
+
         stage('Test') {
             steps {
                 echo 'Testing..'
