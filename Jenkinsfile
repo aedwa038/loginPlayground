@@ -23,7 +23,7 @@ pipeline {
         stage('Build App') {
             steps {
                 echo 'Building..'
-                sh 'cd login-playground-app/ && mvn -Dmaven.test.failure.ignore=true install && cd ../'
+                sh 'cd login-playground-app/ && mvn -Dmaven.test.failure.ignore=true install docker:build && cd ../'
             }
     }
 
