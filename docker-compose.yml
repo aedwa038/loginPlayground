@@ -16,7 +16,7 @@ services:
     image: aedwa038/login-playground
     restart: always
     ports:
-      - "8080:8080"
+      - "9080:8080"
     depends_on:
       - database
     environment:
