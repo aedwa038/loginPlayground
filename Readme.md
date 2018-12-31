@@ -1,0 +1,1 @@
+[![Build Status](http://178.128.149.65:8080/job/Login%20Playground/badge/icon)](http://178.128.149.65:8080/job/Login%20Playground/)
