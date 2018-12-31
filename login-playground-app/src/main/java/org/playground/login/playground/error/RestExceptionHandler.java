@@ -23,6 +23,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
             case INTERNAL:
             case LOGIN_ERROR:
                 LOGGER.error("Error occured: " + ex.getErrorString());
+                LOGGER.error("Error: ",ex);
         }
 
         return ResponseEntity.ok().build();

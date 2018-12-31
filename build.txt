@@ -1,1 +1,1 @@
-cd login-playground-app/ && mvn clean install docker:build && cd ../ && docker-compose up
+docker-compose down && cd login-playground-app/ && mvn clean install docker:build && cd ../ && docker-compose up

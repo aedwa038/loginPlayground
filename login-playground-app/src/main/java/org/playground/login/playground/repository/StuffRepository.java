@@ -3,14 +3,18 @@ package org.playground.login.playground.repository;
 import org.jooq.Record;
 import org.playground.login.playground.error.ApplicatonError;
 import org.playground.login.playground.repository.pojo.Stuff;
+
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+
 @Repository
 public class StuffRepository {
+    public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(StuffRepository.class);
 
     @Autowired
     private DataService<Stuff> dataService;
@@ -38,10 +42,12 @@ public class StuffRepository {
 
 
     public static Stuff create(Record row) {
+        LOGGER.info(row.toString());
         Stuff stuff = new Stuff();
         stuff.setId((Integer) row.get("id"));
         stuff.setUser_id((Integer)(row.get("user_id")));
         stuff.setData((String) (row.get("data")));
+        stuff.setContentType((String)row.get("content_type"));
         return stuff;
     }
 

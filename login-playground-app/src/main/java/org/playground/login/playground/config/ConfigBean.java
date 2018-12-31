@@ -1,4 +1,4 @@
-package org.playground.login.playground;
+package org.playground.login.playground.config;
 
 import org.jooq.DSLContext;
 import org.jooq.SQLDialect;

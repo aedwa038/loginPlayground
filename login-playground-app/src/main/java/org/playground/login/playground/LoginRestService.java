@@ -33,13 +33,17 @@ public class LoginRestService {
 
     @PostMapping("register/")
     @ResponseBody
-    public UserRegistrationResponse register(@RequestBody UserRegisterRequest userRegisterRequest) throws Exception {
+    public UserRegistrationResponse register(@RequestBody UserRegisterRequest userRegisterRequest,HttpServletResponse response) throws Exception {
         LOGGER.info("register");
         if(userRegisterRequest == null || userRegisterRequest.getEmail() == null || userRegisterRequest.getPassword() == null || userRegisterRequest.getUsername() == null){
             throw new ApplicatonError(ApplicatonError.ErrorCode.ILLEGAL_ARGUMENT,"Registration Error", "App Error");
         }
         //validate request
-        return userLoginService.register(userRegisterRequest);
+
+        UserRegistrationResponse userRegistrationResponse = userLoginService.register(userRegisterRequest);
+        String token = tokenService.createToken(userRegistrationResponse.getUser());
+        response.addHeader(SecurityConstants.HEADER_STRING, SecurityConstants.TOKEN_PREFIX + token);
+        return userRegistrationResponse;
     }
 
     @PostMapping("login/")

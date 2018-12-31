@@ -21,7 +21,7 @@ public class LoginFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        LOGGER.info("doFilter");
+        LOGGER.info("LoginFilter doFilter");
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse res = (HttpServletResponse) response;
         LOGGER.info("Logging Request  {} : {}", req.getMethod(), req.getRequestURI());

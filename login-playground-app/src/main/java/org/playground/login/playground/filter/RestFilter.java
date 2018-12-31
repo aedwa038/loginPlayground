@@ -33,7 +33,7 @@ public class RestFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        LOGGER.info("doFilter");
+        LOGGER.info("RestFilter doFilter");
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse res = (HttpServletResponse) response;
         LOGGER.info(
@@ -54,6 +54,7 @@ public class RestFilter implements Filter {
 
     UsernamePasswordAuthenticationToken authenticate(HttpServletRequest request) throws ServletException {
         String token =  request.getHeader(SecurityConstants.HEADER_STRING);
+        LOGGER.info(token);
         if(token == null) {
             throw new ServletException("Missing or invalid Authorization header");
         }

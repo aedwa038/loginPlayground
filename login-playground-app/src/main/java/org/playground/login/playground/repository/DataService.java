@@ -89,8 +89,8 @@ public class DataService <R> {
             if(field.isAnnotationPresent(Column.class)) {
                 Column column = field.getAnnotation(Column.class);
                 Object obj = invokeGetter(field, r);
-                if(obj != null) {
-                    System.out.println(obj.toString());
+                if(obj != null && !field.getName().equals("id")) {
+                    System.out.println(field.getName() + " : " +obj.toString());
                     objects.add(obj);
                     fields.add(field(column.name()));
                 }

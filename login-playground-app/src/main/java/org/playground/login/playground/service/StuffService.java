@@ -18,14 +18,23 @@ public class StuffService {
         return stuffRepository.getByUserId(registeredUser.getId());
     }
 
-    public List<Stuff> getByUser(int userId) throws ApplicatonError{
-        return stuffRepository.getByUserId(userId);
+    public List<Stuff> getByUser(int id) throws ApplicatonError{
+        return stuffRepository.getByUserId(id);
     }
 
-    public void insert(RegisteredUser registeredUser, String data) throws ApplicatonError {
+    public Stuff getById(int stuffId, int userId) throws ApplicatonError{
+        Stuff stuff = stuffRepository.getById(stuffId);
+        if(stuff.getUser_id() != userId) {
+            return null;
+        }
+        return stuff;
+    }
+
+    public void insert(RegisteredUser registeredUser, String data, String contentType) throws ApplicatonError {
         Stuff stuff = new Stuff();
         stuff.setUser_id(registeredUser.getId());
         stuff.setData(data);
+        stuff.setContentType(contentType);
         try {
             stuffRepository.insert(stuff);
         } catch (Exception ex) {
