@@ -1,5 +1,11 @@
 pipeline {
-    agent none
+     agent {
+                //dockerfile true
+                docker {
+                    image 'aedwa038/builder:latest'
+                    args '-v /root/.m2:/root/.m2'
+                }
+            }
     environment {
         registry = "aedwa038/login_db"
         registryCredential = 'dockerhub'
