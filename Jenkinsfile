@@ -22,12 +22,12 @@ pipeline {
                     args '-v /root/.m2:/root/.m2'
                 }
             }
-        }
+        
             steps {
                 echo 'Building..'
                 sh 'cd login-playground-app/ && mvn -Dmaven.test.failure.ignore=true install && cd ../'
             }
-        }
+    }
 
         stage('Build Database') {
             steps {
