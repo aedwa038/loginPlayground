@@ -5,11 +5,11 @@ pipeline {
         registryCredential = 'dockerhub'
     }
     agent {
-     dockerfile true
-     //docker {
-       //  image 'ubuntu:16.04'
-         //args '-v /root/.m2:/root/.m2'
-     //}
+     //dockerfile true
+     docker {
+         image 'aedwa038/builder:latest'
+         args '-v /root/.m2:/root/.m2'
+      }
     }
     stages {
          stage ('Initialize') {
