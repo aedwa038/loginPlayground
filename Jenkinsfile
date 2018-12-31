@@ -8,7 +8,7 @@ pipeline {
      dockerfile true
      //docker {
        //  image 'ubuntu:16.04'
-         args '-v /root/.m2:/root/.m2'
+         //args '-v /root/.m2:/root/.m2'
      //}
     }
     stages {
