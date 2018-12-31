@@ -29,7 +29,7 @@ pipeline {
                  script {
                     def dockerImage = docker.build("aedwa038/login_db:${env.BUILD_ID}", '-f .login-playground-database/Dockerfile .')
                     pipelineContext.dockerImage = dockerImage
-                    customImage.push()
+                    dockerImage.push()
                 }
                 script {
                     docker.build(registry + ":$BUILD_NUMBER")
