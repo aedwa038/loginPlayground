@@ -2,10 +2,7 @@ package org.playground.login.playground;
 
 import org.playground.login.playground.error.ApplicatonError;
 import org.playground.login.playground.pojo.*;
-import org.playground.login.playground.service.TestService;
-import org.playground.login.playground.service.UserLoginService;
-import org.playground.login.playground.service.UserSession;
-import org.playground.login.playground.service.UserSessionService;
+import org.playground.login.playground.service.*;
 import org.playground.login.playground.utils.CryptoUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,6 +25,9 @@ public class LoginRestService {
     @Autowired
     UserSessionService userSessionService;
 
+    @Autowired
+    TokenService tokenService;
+
     public static final Logger LOGGER = LoggerFactory.getLogger(LoginRestService.class);
 
 
@@ -49,11 +49,9 @@ public class LoginRestService {
             throw new ApplicatonError(ApplicatonError.ErrorCode.ILLEGAL_ARGUMENT,"Login Error", "App Error");
         }
         //validate response
-
         UserLoginResponse userLoginResponse = userLoginService.loginUser(userLoginRequest);
-        UserSession userSession = UserSession.create(userLoginResponse.getUser());
-        String sessionId = userSessionService.putSession(userSession);
-        response.setHeader("SESSIONID", CryptoUtil.encode(sessionId));
+        String token = tokenService.createToken(userLoginResponse.getUser());
+        response.addHeader(SecurityConstants.HEADER_STRING, SecurityConstants.TOKEN_PREFIX + token);
         return userLoginResponse;
     }
 

@@ -15,6 +15,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Function;
 
 import static org.jooq.impl.DSL.*;
@@ -117,6 +118,7 @@ public class DataService <R> {
         Method method = findGetter(field, r);
         return invoke(method, r);
     }
+
 
     private static Method findGetter(Field field, Object r) {
        for (Method method : r.getClass().getMethods()) {

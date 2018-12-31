@@ -45,6 +45,7 @@ public class ApplicatonError extends Exception {
         ILLEGAL_ARGUMENT,
         BACKEND_ERROR,
         LOGIN_ERROR,
+        AUTHENTICATION_ERROR,
         UNKNOWN
     }
 
