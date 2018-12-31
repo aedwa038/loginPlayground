@@ -8,9 +8,6 @@ services:
     restart: always
     ports:
       - "5432:5432" 
-    networks:
-      - back-tier
-
   login-playground-app:
     image: aedwa038/login-playground
     restart: always
@@ -25,9 +22,4 @@ services:
       #DB_NAME: login-db  
       #DB_PORT: 5432
       SPRING_DATASOURCE_URL: 'jdbc:postgresql://database:5432/login-db'
-    networks: 
-      - back-tier
-      - front-tier
-networks:
-  front-tier:
-  back-tier:
+
