@@ -28,9 +28,11 @@ public class UserLoginService {
     @Transactional(transactionManager = "txManager")
     public UserLoginResponse loginUser(UserLoginRequest request) throws Exception{
         String password = userRepository.getUserPassword(request.getUsername());
-
+        if(password == null || "".equals(password)) {
+            throw new ApplicatonError(ApplicatonError.ErrorCode.AUTHENTICATION_ERROR,"Authentication Error","Authentication Error");
+        }
         if(!CryptoUtil.checkPassword(request.getPassword(), password)) {
-           throw new ApplicatonError("", "UserLogin Error");
+           throw new ApplicatonError(ApplicatonError.ErrorCode.AUTHENTICATION_ERROR,"Authentication Error","Authentication Error");
         }
         RegisteredUser user = userRepository.getRegisteredUser(request.getUsername());
         userRepository.updateLastlogin(request.getUsername());
@@ -47,16 +49,16 @@ public class UserLoginService {
 
         if(!emails.get() || !usernames.get()) {
             LOGGER.error("Username or email exists");
-            throw new ApplicatonError("email and username check", "value already exisits");
+            throw new ApplicatonError(ApplicatonError.ErrorCode.REGISRATION_ERROR,"email and username check", "value already exisits");
         }
 
         RegisteredUser registeredUser = new RegisteredUser();
         registeredUser.setUsername(request.getUsername());
-        registeredUser.setEmail(request.getPassword());
+        registeredUser.setEmail(request.getEmail());
         registeredUser.setPassword(CryptoUtil.hash(request.getPassword()));
         registeredUser.setRegisteredDate(LocalDateTime.now());
         if(!userRepository.insertUser(registeredUser)) {
-            throw new ApplicatonError("Error insert", "Error inserting user");
+            throw new ApplicatonError(ApplicatonError.ErrorCode.INTERNAL,"Error insert", "Error inserting user");
         }
 
         RegisteredUser user = userRepository.getRegisteredUser(request.getUsername());

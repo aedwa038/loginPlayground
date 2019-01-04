@@ -74,9 +74,13 @@ public class UserRepository {
 
     public String getUserPassword(String userName) throws Exception {
         Result<Record1<Object>> rows = dataService.getField("password", "username", userName, RegisteredUser.class);
+        if(rows.size() < 1) {
+            return "";
+        }
+        LOGGER.info("Number of rows fetched: " + rows.size());
         final StringBuilder password = new StringBuilder("");
         rows.stream().forEach(stringObjectMap -> password.append(stringObjectMap.get("password")));
-        System.out.println(password);
+
         return password.toString();
     }
 

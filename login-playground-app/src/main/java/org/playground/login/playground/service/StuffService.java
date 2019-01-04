@@ -14,6 +14,7 @@ public class StuffService {
     @Autowired
     StuffRepository stuffRepository;
 
+
     public List<Stuff> getByUser(RegisteredUser registeredUser) throws ApplicatonError{
         return stuffRepository.getByUserId(registeredUser.getId());
     }

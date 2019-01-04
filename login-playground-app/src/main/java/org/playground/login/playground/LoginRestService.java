@@ -22,8 +22,6 @@ public class LoginRestService {
     @Autowired
     TestService testService;
 
-    @Autowired
-    UserSessionService userSessionService;
 
     @Autowired
     TokenService tokenService;

@@ -41,11 +41,13 @@ public class ApplicatonError extends Exception {
     }
 
     public enum ErrorCode {
+        REGISRATION_ERROR,
         INTERNAL,
         ILLEGAL_ARGUMENT,
         BACKEND_ERROR,
         LOGIN_ERROR,
         AUTHENTICATION_ERROR,
+        AUTHORIZATION_ERROR,
         UNKNOWN
     }
 
