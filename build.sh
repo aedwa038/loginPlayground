@@ -1,5 +1,4 @@
 #!/bin/bash
-echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
 echo "Building Database"
 cd login-playground-database &&  sh ./build.sh && cd ../
 echo "Building Login App"
@@ -7,6 +6,8 @@ cd login-playground-app && mvn clean install docker:build  && cd ../
 echo "Building Docs"
 cd login-playground-docs && sh ./build.sh && cd ../
 echo "Publising to Docker hub"
-bash deploy.sh
+echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+docker push aedwa038/playground-docs:latest
+docker push aedwa038/login_db:latest
 echo "Done"
 #docker-compose down && cd login-playground-app/ && mvn clean install docker:build && cd ../ && docker-compose up
