@@ -7,6 +7,7 @@ echo "Building Docs"
 cd login-playground-docs && sh ./build.sh && cd ../
 echo "Publising to Docker hub"
 echo "$DOCKER_PASSWORD" | docker login --username "$DOCKER_USERNAME" --password-stdin
+docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD ;
 docker push aedwa038/playground-docs:latest
 docker push aedwa038/login_db:latest
 echo "Done"
