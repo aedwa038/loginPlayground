@@ -1,12 +1,16 @@
 sudo: required
 services:
 - docker
-language: java
+matrix:
+  - language: java
+  - language: node_js
 
 jdk:
   - openjdk8
 
-
+before_script:
+  - npm install apidoc -g
+  
 env:
   global:
     - secure: i0Qex/bbEz8ElnKdeDI6TRDUTCcnufKd3CSqYwtloKbtoO0Sp0kHVlpCyYIu/fP+YjARf0scDvpFyXCxxLAgkTYFkBL+350clKZGPxRWAIWQhQaBXb7PGQX3oFGmco8k8+0WhZYvGjmpz9ReXi+7LVrMterMxLRZPws3FqsK3JajB0V/dxBJvhmYNKSocLYkXJtsx9q78CMm0byBWVXABzVpsTpcDkpM9S6fAniCDytKFhNL6O69CkkhKOyYd226EAM4qUkteXDEsLrAq0Sf8y5phHL1eUGGlHtMcCBnNC8KGgRu5FwSYFJlSoxmE5Cp0oD6LUMhqbXizX85J9tRLvYmdO5ruhxGifp6+76QtyvDClJzQU94o7AWy/52gGi9YOidPszQZWW+uisbONWi6SI36Xw7N5bh7MUxkqEv7+HgBzHiiXG7PmVwPNNdNWIf251rQArXhLDhqz81xQhkGOZiGHIht2NZAQTdFIaoKaWNBc+Tzl8D3nXQl1dMyFxCir1iq0D8C4Z/Bkek44OKC+h4qhLdCjQFAxdCpsKOgo18UjwffQaYZocXjBunelRhK8wM1vH58nu1V29ZbfxE/BOjeWeBA9upo4UgjCieUlRAnurtSenyhT6KGuTmuHOu/yJyZdSFqZtQbF1NKTscHX26mTIWMUmt/stzm4hAshA=
