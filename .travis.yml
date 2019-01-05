@@ -11,5 +11,6 @@ cache:
   - $HOME/.m2
 before_script:
 - npm install apidoc -g
+- echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
 script: "./build.sh"
 after_script: "./clean.sh"
