@@ -9,7 +9,7 @@ echo "Publising to Docker hub"
 echo "$DOCKER_PASSWORD" | docker login --username "$DOCKER_USERNAME" --password-stdin
 #echo "$DOCKER_PASSWORD"
 #docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD ;
-docker push aedwa038/playground-docs:latest
-docker push aedwa038/login_db:latest
+docker push $DOCKER_USERNAME/playground-docs:latest
+docker push $DOCKER_USERNAME/login_db:latest
 echo "Done"
 #docker-compose down && cd login-playground-app/ && mvn clean install docker:build && cd ../ && docker-compose up
