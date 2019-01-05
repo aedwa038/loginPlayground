@@ -15,5 +15,9 @@ env:
 
 script: ./build.sh
   
+after_success:
+  - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
+  - docker push aedwa038/login_db:latest
+  - docker push aedwa038/playground-docs:latest
 
 after_script: ./clean.sh
