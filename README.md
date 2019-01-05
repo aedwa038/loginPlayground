@@ -1,6 +1,6 @@
 # Login Playground App
 
-<a href='https://www.jenkins.playgrounds.ga/job/Login%20Playground/'><img src='https://www.jenkins.playgrounds.ga/job/Login%20Playground/badge/icon'></a>
+[![Build Status](https://travis-ci.org/aedwa038/loginPlayground.svg?branch=master)](https://travis-ci.org/aedwa038/loginPlayground)
 
 
 # curl commnads
@@ -61,3 +61,4 @@ curl -X GET \
   -H 'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJteXNlcnZlciIsImV4cCI6MTU0NzA5NTQzMywidXNlciI6IntcImlkXCI6MSxcInVzZXJuYW1lXCI6XCJrZWVtXCIsXCJlbWFpbFwiOlwia2VlbVwiLFwicmVnaXN0ZXJlZERhdGVcIjp7XCJkYXRlXCI6e1wieWVhclwiOjIwMTgsXCJtb250aFwiOjEyLFwiZGF5XCI6MzF9LFwidGltZVwiOntcImhvdXJcIjo0LFwibWludXRlXCI6NDMsXCJzZWNvbmRcIjo1MCxcIm5hbm9cIjozNDcwMDAwMDB9fSxcImxhc3RMb2dpbkRhdGVcIjp7XCJkYXRlXCI6e1wieWVhclwiOjIwMTgsXCJtb250aFwiOjEyLFwiZGF5XCI6MzF9LFwidGltZVwiOntcImhvdXJcIjo0LFwibWludXRlXCI6NDMsXCJzZWNvbmRcIjo1MCxcIm5hbm9cIjozNjMzMzkwMDB9fX0ifQ.VYUg-ULCcR0IcW4KC9Hmq-vRIwgKLxsUvImfL8Do__I' \
   -H 'Postman-Token: 697a342d-9815-4608-aabc-dda3bb1eec06' \
   -H 'cache-control: no-cache'
+

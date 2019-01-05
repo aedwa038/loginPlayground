@@ -11,7 +11,7 @@ public class ApplicatonError extends Exception {
         this.errorString = ex.getLocalizedMessage();
     }
 
-    public ApplicatonError (ErrorCode errorCode, Exception ex) {
+    public ApplicatonError (ErrorCode errorCode, Throwable ex) {
         super(ex);
         this.errorString = ex.getLocalizedMessage();
         this.errorCode = errorCode;

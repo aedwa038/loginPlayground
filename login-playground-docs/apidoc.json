@@ -1,0 +1,13 @@
+{
+    "name": "Login Playground Api doc",
+    "version": "0.1.0",
+    "description": "Api Documentation for sample login server",
+    "apidoc": {
+      "title": "Custom apiDoc browser title",
+      "url" : "https://api.playgrounds.ga/docs"
+    },
+    "order": [
+      "User",
+      "Stuff"
+    ]
+  }

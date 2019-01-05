@@ -31,13 +31,13 @@ public class StuffService {
         return stuff;
     }
 
-    public void insert(RegisteredUser registeredUser, String data, String contentType) throws ApplicatonError {
+    public Integer insert(RegisteredUser registeredUser, String data, String contentType) throws ApplicatonError {
         Stuff stuff = new Stuff();
         stuff.setUser_id(registeredUser.getId());
         stuff.setData(data);
         stuff.setContentType(contentType);
         try {
-            stuffRepository.insert(stuff);
+            return stuffRepository.insert(stuff);
         } catch (Exception ex) {
             throw new ApplicatonError(ApplicatonError.ErrorCode.BACKEND_ERROR, ex);
         }

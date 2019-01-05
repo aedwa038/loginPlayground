@@ -32,7 +32,7 @@ public class StuffRepository {
        return stuffs.get(0);
     }
 
-    public boolean insert(Stuff stuff) throws Exception{
+    public Integer insert(Stuff stuff) throws Exception{
         return dataService.insert(stuff, Stuff.class);
     }
 

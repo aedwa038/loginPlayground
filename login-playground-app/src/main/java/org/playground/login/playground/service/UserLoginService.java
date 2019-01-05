@@ -57,9 +57,7 @@ public class UserLoginService {
         registeredUser.setEmail(request.getEmail());
         registeredUser.setPassword(CryptoUtil.hash(request.getPassword()));
         registeredUser.setRegisteredDate(LocalDateTime.now());
-        if(!userRepository.insertUser(registeredUser)) {
-            throw new ApplicatonError(ApplicatonError.ErrorCode.INTERNAL,"Error insert", "Error inserting user");
-        }
+        userRepository.insertUser(registeredUser);
 
         RegisteredUser user = userRepository.getRegisteredUser(request.getUsername());
         return new UserRegistrationResponse(user);
