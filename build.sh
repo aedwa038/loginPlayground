@@ -6,5 +6,7 @@ echo "Building Login App"
 cd login-playground-app && mvn clean install docker:build  && cd ../
 echo "Building Docs"
 cd login-playground-docs && sh ./build.sh && cd ../
+echo "Publising to Docker hub"
+bash deploy.sh
 echo "Done"
 #docker-compose down && cd login-playground-app/ && mvn clean install docker:build && cd ../ && docker-compose up
