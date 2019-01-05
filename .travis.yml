@@ -24,4 +24,11 @@ after_success:
   - docker push aedwa038/login_db:latest
   - docker push aedwa038/playground-docs:latest
 
+  
 after_script: ./clean.sh
+
+deploy:
+  provider: script
+  script: bash deploy.sh
+  on:
+    branch: master
