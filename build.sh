@@ -1,5 +1,5 @@
 #!/bin/bash
-docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
+echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
 echo "Building Database"
 cd login-playground-database &&  sh ./build.sh && cd ../
 echo "Building Login App"
