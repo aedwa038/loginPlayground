@@ -81,7 +81,7 @@ public class DataService <R> {
         return records;
     }
 
-    public boolean insert (R r, Class<R> rClass) throws Exception {
+    public Integer insert (R r, Class<R> rClass) throws Exception {
         LOGGER.info("insert");
         List<org.jooq.Field<Object>> fields = new ArrayList<>();
         List<Object> objects = new ArrayList<>();
@@ -97,21 +97,27 @@ public class DataService <R> {
             }
         }
         boolean sucess = true;
+        Record record = null;
         try {
             String sql = dslContext.insertInto(table(getTableName(rClass)))
                     .columns(fields)
                     .values(objects).getSQL();
             LOGGER.info(sql);
-            dslContext.insertInto(table(getTableName(rClass)))
+            record = dslContext.insertInto(table(getTableName(rClass)))
                     .columns(fields)
-                    .values(objects).execute();
+                    .values(objects)
+                    .returning(field("id"))
+                    .fetchOne();
         } catch (Throwable ex) {
             sucess =  false;
             LOGGER.warn("Error inserting record");
             LOGGER.error("Error: ", ex);
+            throw new ApplicatonError(ApplicatonError.ErrorCode.INTERNAL, ex);
         }
 
-        return sucess;
+        Integer id = (Integer) record.getValue(field("id"));
+
+        return id;
     }
 
     public static Object invokeGetter(Field field, Object r) {

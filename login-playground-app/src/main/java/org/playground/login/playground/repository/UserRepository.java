@@ -84,13 +84,13 @@ public class UserRepository {
         return password.toString();
     }
 
-    public boolean insertUser(RegisteredUser user) {
+    public Integer insertUser(RegisteredUser user) throws Exception {
         try {
            return dataService.insert(user, RegisteredUser.class);
         } catch (Exception ex) {
             LOGGER.error("Failing to insert record: ", ex);
+            throw new ApplicatonError(ApplicatonError.ErrorCode.INTERNAL,"Error insert", "Error inserting user");
         }
-        return false;
     }
 
     public static RegisteredUser create(Record row) {
