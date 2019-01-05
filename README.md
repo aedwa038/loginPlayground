@@ -1,3 +1,3 @@
 # Login Playground App
 
-<a href='https://www.jenkins.playgrounds.ga/job/Login%20Playground/'><img src='https://www.jenkins.playgrounds.ga/job/Login%20Playground/badge/icon'></a>
+[![Build Status](https://travis-ci.org/aedwa038/loginPlayground.svg?branch=master)](https://travis-ci.org/aedwa038/loginPlayground)
