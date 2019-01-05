@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 echo "Building Database"
 cd login-playground-database &&  sh ./build.sh && cd ../
 echo "Building Login App"
