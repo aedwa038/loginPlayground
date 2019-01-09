@@ -1,20 +1,18 @@
-version: "2"
+version: "3.1"
 services:
   database:
-    build: 
-       context: ./login-playground-database
-       dockerfile: Dockerfile
-    image: login_db
-    restart: always
+    image: aedwa038/login_db:latest
     ports:
-      - "5432:5432" 
-  login-playground-app:
-    image: aedwa038/login-playground
-    restart: always
-    ports:
-      - "9080:8080"
-    depends_on:
-      - database
+      - "5432:5432"
+    networks:
+      - back-tier
+    deploy:
+      placement:
+        constraints:
+          - 'node.role == worker'
+  
+  appserver:
+    image:  aedwa038/login-playground:tagname
     environment:
       #DB_HOST: jdbc:postgresql://database
       DB_USER: login
@@ -22,4 +20,45 @@ services:
       #DB_NAME: login-db  
       #DB_PORT: 5432
       SPRING_DATASOURCE_URL: 'jdbc:postgresql://database:5432/login-db'
+    networks:
+      - front-tier
+      - back-tier
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 2
+        failure_action: rollback
+      placement:
+        constraints:
+          - 'node.role == worker'
+        restart_policy:
+          condition: on-failure
+          delay: 5s
+          max_attempts: 3
+          window: 120s
 
+    docs-server:
+      image:  aedwa038/playground-docs:latest
+      ports:
+        - "8001:80"
+      networks:
+        - front-tier
+      deploy:
+      replicas: 1
+      update_config:
+        parallelism: 2
+        failure_action: rollback
+      placement:
+        constraints:
+          - 'node.role == worker'
+        restart_policy:
+          condition: on-failure
+          delay: 5s
+          max_attempts: 3
+          window: 120s
+
+
+
+networks:
+  front-tier:
+  back-tier:
