@@ -31,11 +31,11 @@ services:
       placement:
         constraints:
           - 'node.role == worker'
-        restart_policy:
-          condition: on-failure
-          delay: 5s
-          max_attempts: 3
-          window: 120s
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
           
   docs-server:
     image:  aedwa038/playground-docs:latest
@@ -51,11 +51,11 @@ services:
       placement:
         constraints:
           - 'node.role == worker'
-        restart_policy:
-          condition: on-failure
-          delay: 5s
-          max_attempts: 3
-          window: 120s
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
 
 
 
