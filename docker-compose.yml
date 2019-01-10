@@ -36,26 +36,26 @@ services:
           delay: 5s
           max_attempts: 3
           window: 120s
-
-    docs-server:
-      image:  aedwa038/playground-docs:latest
-      ports:
-        - "8001:80"
-      networks:
-        - front-tier
-      deploy:
-      replicas: 1
-      update_config:
-        parallelism: 2
-        failure_action: rollback
-      placement:
-        constraints:
-          - 'node.role == worker'
-        restart_policy:
-          condition: on-failure
-          delay: 5s
-          max_attempts: 3
-          window: 120s
+          
+  docs-server:
+    image:  aedwa038/playground-docs:latest
+    ports:
+      - "8001:80"
+    networks:
+      - front-tier
+    deploy:
+    replicas: 1
+    update_config:
+      parallelism: 2
+      failure_action: rollback
+    placement:
+      constraints:
+        - 'node.role == worker'
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
 
 
 
