@@ -12,7 +12,9 @@ services:
           - 'node.role == worker'
   
   appserver:
-    image:  aedwa038/login-playground:tagname
+    image:  aedwa038/login-playground:latest
+    ports:
+      - "8080:8080"
     environment:
       #DB_HOST: jdbc:postgresql://database
       DB_USER: login
@@ -31,19 +33,19 @@ services:
       placement:
         constraints:
           - 'node.role == worker'
-        restart_policy:
-          condition: on-failure
-          delay: 5s
-          max_attempts: 3
-          window: 120s
-
-    docs-server:
-      image:  aedwa038/playground-docs:latest
-      ports:
-        - "8001:80"
-      networks:
-        - front-tier
-      deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+          
+  docs-server:
+    image:  aedwa038/playground-docs:latest
+    ports:
+      - "8001:80"
+    networks:
+      - front-tier
+    deploy:
       replicas: 1
       update_config:
         parallelism: 2
@@ -51,11 +53,11 @@ services:
       placement:
         constraints:
           - 'node.role == worker'
-        restart_policy:
-          condition: on-failure
-          delay: 5s
-          max_attempts: 3
-          window: 120s
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
 
 
 
