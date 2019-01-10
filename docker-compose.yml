@@ -12,7 +12,7 @@ services:
           - 'node.role == worker'
   
   appserver:
-    image:  aedwa038/login-playground:tagname
+    image:  aedwa038/login-playground:latest
     environment:
       #DB_HOST: jdbc:postgresql://database
       DB_USER: login
