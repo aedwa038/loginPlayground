@@ -16,6 +16,7 @@ before_script:
 script: "./build.sh"
 after_success: "./clean.sh"
 deploy:
+  skip_cleanup: true
   provider: script
   script: bash docker_push
   on:
