@@ -15,11 +15,8 @@ before_script:
 - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
 script: "./build.sh"
 after_script: "./clean.sh"
-
 deploy:
+  provider: script
+  script: bash docker_push
   on:
     branch: master
-- echo "$DOCKER_PASSWORD" | docker login --username "$DOCKER_USERNAME" --password-stdin
-- docker push $DOCKER_USERNAME/playground-docs:latest
-- docker push $DOCKER_USERNAME/login_db:latest
-- docker push $DOCKER_USERNAME/login-playground:latest=
