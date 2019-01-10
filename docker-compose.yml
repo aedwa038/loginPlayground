@@ -13,6 +13,8 @@ services:
   
   appserver:
     image:  aedwa038/login-playground:latest
+    ports:
+      - "8080:8080"
     environment:
       #DB_HOST: jdbc:postgresql://database
       DB_USER: login
